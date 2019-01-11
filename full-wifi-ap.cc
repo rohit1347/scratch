@@ -27,7 +27,9 @@
 #include "ns3/wifi-module.h"
 #include "ns3/full-module.h"
 #include "ns3/athstats-helper.h"
-#include "sta-wifi-mac.h"
+#include "ns3/sta-wifi-mac.h"
+#include "ns3/wifi-phy-state.h"
+#include "ns3/wifi-mac-helper.h"
 
 #include <iostream>
 
@@ -77,8 +79,24 @@ PhyTxTrace (std::string context, Ptr<const Packet> packet, WifiMode mode, WifiPr
       std::cout << "PHYTX mode=" << mode << " " << *packet << std::endl;
     }
 }
+#ifndef WIFI_STATE
+#define WIFI_STATE
+
+enum WifiPhyState
+    {
+      IDLE,
+      CCA_BUSY,
+      TX,
+      RX,
+      SWITCHING,
+      SLEEP,
+      OFF
+    };
+
+#endif  
+
 void
-PhyStateTrace (std::string context, Time start, Time duration, enum WifiPhyState::State state)
+PhyStateTrace (std::string context, Time start, Time duration, enum WifiPhyState state)
 {
   if (g_verbose)
     {
@@ -151,7 +169,7 @@ int main (int argc, char *argv[])
   packetSocket.Install (ap);
 
   // NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
-  WiFiMacHelper wifiMac = WifiMacHelper();
+  WifiMacHelper wifiMac = WifiMacHelper();
   YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
   YansWifiChannelHelper wifiChannel = YansWifiChannelHelper::Default ();
   wifiPhy.SetChannel (wifiChannel.Create ());
