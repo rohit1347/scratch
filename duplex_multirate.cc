@@ -75,8 +75,8 @@ public:
 
   Experiment ();
   Experiment (std::string name);
-  Gnuplot2dDataset Run (const FullWifiHelper &wifi, const FullYansWifiPhyHelper &wifiPhy,
-                        const FullNqosWifiMacHelper &wifiMac, const FullYansWifiChannelHelper &wifiChannel, const MobilityHelper &mobility);
+  // Gnuplot2dDataset Run (const FullWifiHelper &wifi, const FullYansWifiPhyHelper &wifiPhy,
+                        // const FullNqosWifiMacHelper &wifiMac, const FullYansWifiChannelHelper &wifiChannel, const MobilityHelper &mobility);
 
   bool CommandSetup (int argc, char **argv);
   bool IsRouting () { return (enableRouting == 1) ? 1 : 0; }
@@ -100,7 +100,7 @@ private:
   void CheckThroughput ();
   void SendMultiDestinations (Ptr<Node> sender, NodeContainer c);
 
-  Gnuplot2dDataset m_output;
+  // Gnuplot2dDataset m_output;
 
   double totalTime; 
   double expMean;
@@ -144,9 +144,9 @@ Experiment::Experiment (std::string name) :
   rtsThreshold ("2200"), //0 for enabling rts/cts
   rateManager ("ns3::FullMinstrelWifiManager"),
   outputFileName ("minstrel")
-{
-  m_output.SetStyle (Gnuplot2dDataset::LINES);
-}
+// {
+//   m_output.SetStyle (Gnuplot2dDataset::LINES);
+// }
 
 Ptr<Socket>
 Experiment::SetupPacketReceive (Ptr<Node> node)
@@ -368,9 +368,9 @@ Experiment::ApplicationSetup (Ptr<Node> client, Ptr<Node> server, double start, 
 
 }
 
-Gnuplot2dDataset
-Experiment::Run (const FullWifiHelper &wifi, const FullYansWifiPhyHelper &wifiPhy,
-                 const FullNqosWifiMacHelper &wifiMac, const FullYansWifiChannelHelper &wifiChannel, const MobilityHelper &mobility)
+// Gnuplot2dDataset
+// Experiment::Run (const FullWifiHelper &wifi, const FullYansWifiPhyHelper &wifiPhy,
+//                  const FullNqosWifiMacHelper &wifiMac, const FullYansWifiChannelHelper &wifiChannel, const MobilityHelper &mobility)
 {
 
 
@@ -566,8 +566,8 @@ int main (int argc, char *argv[])
   std::ofstream outfile ((experiment.GetOutputFileName ()+ ".plt").c_str ());
 
   MobilityHelper mobility;
-  Gnuplot gnuplot;
-  Gnuplot2dDataset dataset;
+  // Gnuplot gnuplot;
+  // Gnuplot2dDataset dataset;
 
   FullWifiHelper wifi = FullWifiHelper::Default ();
   FullNqosWifiMacHelper wifiMac = FullNqosWifiMacHelper::Default ();
@@ -589,8 +589,8 @@ int main (int argc, char *argv[])
 
   dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel, mobility);
 
-  gnuplot.AddDataset (dataset);
-  gnuplot.GenerateOutput (outfile);
+  // gnuplot.AddDataset (dataset);
+  // gnuplot.GenerateOutput (outfile);
 
   return 0;
 }
