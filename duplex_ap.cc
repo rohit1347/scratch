@@ -212,7 +212,7 @@ int main (int argc, char *argv[])
 //  bool verbose = false;
 //  d->phyMode = "OfdmRate12Mbps";
 
-  double th = 0.1;
+  // double th = 0.1;
 
   d->protocol = "udp";
 
@@ -284,11 +284,13 @@ int main (int argc, char *argv[])
   double x,y,gap;
   gap = d->dim / rowsize;
   std::vector<std::pair<double,double> > apPositions;
-  NormalRandomVariable norm_rand_var1;
+  // NormalRandomVariable norm_rand_var1;
   // RandomVariable apOffset = NormalRandomVariable (0,1);
-  NormalRandomVariable apOffset = norm_rand_var1.GetValue(0,1);
-  NormalRandomVariable norm_rand_var2;
-  NormalRandomVariable stationOffset = norm_rand_var2.GetValue(0,1);
+  // double apOffset = (norm_rand_var1.GetValue(0,1));
+  // NormalRandomVariable norm_rand_var2;
+  NormalRandomVariable apOffset;
+  NormalRandomVariable stationOffset;
+  // double stationOffset = (norm_rand_var2.GetValue(0,1));
 
   if (! d->loadPositions)
     {
@@ -297,8 +299,8 @@ int main (int argc, char *argv[])
       fpos.open(d->positionFileName.c_str(), std::ofstream::trunc);
       for (uint16_t index = 0; index < d->numAps; ++index)
         {
-          x = (index % rowsize +.5+ d->apSpread*apOffset.GetValue ()) * gap;
-          y = (floor (index / rowsize) +.5+ d->apSpread*apOffset.GetValue ()) * gap;
+          x = (index % rowsize +.5+ d->apSpread*apOffset.GetValue (0,1)) * gap;
+          y = (floor (index / rowsize) +.5+ d->apSpread*apOffset.GetValue (0,1)) * gap;
           positionAlloc->Add (Vector (x, y, 0.0));
           apPositions.push_back (std::make_pair (x,y));
           fpos << x << std::endl << y << std::endl;
@@ -465,7 +467,8 @@ int main (int argc, char *argv[])
       wifiPhy.SetChannel (wifiChannel.Create ());
 
       // Add a non-QoS upper mac, and disable rate control
-      NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+      // NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+      WifiMacHelper wifiMac=WifiMacHelper();
       wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
                                     "DataMode",StringValue (d->phyMode),
                                     "ControlMode",StringValue (d->phyMode));
