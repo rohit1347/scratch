@@ -290,7 +290,6 @@ int main (int argc, char *argv[])
   // NormalRandomVariable norm_rand_var2;
   NormalRandomVariable apOffset;
   NormalRandomVariable stationOffset;
-  // double stationOffset = (norm_rand_var2.GetValue(0,1));
 
   if (! d->loadPositions)
     {
