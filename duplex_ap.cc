@@ -557,7 +557,7 @@ int main (int argc, char *argv[])
     }
   NS_LOG_INFO ("Created " << curNumStreams << " uplink streams.");
   curNumStreams = 0;
-  while (curNumStreams < downStreams and downList.size () > 0)
+  /*while (curNumStreams < downStreams and downList.size () > 0)
     {
       uint16_t index = rand_i.GetInteger (0, downList.size () - 1);
       if(d->protocol.compare("udp")==0)
@@ -577,6 +577,7 @@ int main (int argc, char *argv[])
       flowList.push_back(downList[index]);
       downList.erase (downList.begin () + index);
     }
+	*/
   NS_LOG_INFO ("Created " << curNumStreams << " downlink streams.");
 
 

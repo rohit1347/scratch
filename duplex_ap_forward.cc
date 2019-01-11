@@ -595,7 +595,7 @@ int main (int argc, char *argv[])
   double cbr2 = (d->packetSize * 8)/ static_cast<double>(downRate.GetBitRate ());
 //  std::cout << "interval2 :" << cbr2 <<"\n";
 
-  while (curNumStreams < upStreams and upList.size () > 0)
+  /*while (curNumStreams < upStreams and upList.size () > 0)
     {
       uint16_t index = rand_i.GetInteger (0, upList.size () - 1);
       if(d->protocol.compare("udp")==0)
@@ -615,7 +615,7 @@ int main (int argc, char *argv[])
       flowList.push_back(upList[index]);
       upList.erase (upList.begin () + index);
     }
-
+*/
 
 
   NS_LOG_INFO ("Created " << curNumStreams << " uplink streams.");
