@@ -30,7 +30,7 @@
 #include "ns3/sta-wifi-mac.h"
 #include "ns3/wifi-phy-state.h"
 #include "ns3/wifi-mac-helper.h"
-// #include "ns3/trace-helper.h"
+#include "ns3/trace-helper.h"
 #include <fstream>
 #include <iostream>
 
@@ -41,51 +41,56 @@ NS_LOG_COMPONENT_DEFINE ("FullWifiAp");
 static bool g_verbose = true;
 
 void
-DevTxTrace (std::string context, Ptr<const Packet> p, Ptr<OutputStreamWrapper> stream)
+// DevTxTrace (std::string context, Ptr<const Packet> p, Ptr<OutputStreamWrapper> stream)
+DevTxTrace (std::string context, Ptr<const Packet> p)
 {
   if (g_verbose)
     {
-      NS_LOG_UNCOND (" TX p: " << *p );
+      // NS_LOG_UNCOND (" TX p: " << *p );
       // *stream->GetStream () << " TX p: " << *p << std::endl;
       std::cout << " TX p: " << *p << std::endl;
     }
 }
 void
-DevRxTrace (std::string context, Ptr<const Packet> p, Ptr<OutputStreamWrapper> stream)
+// DevRxTrace (std::string context, Ptr<const Packet> p, Ptr<OutputStreamWrapper> stream)
+DevRxTrace (std::string context, Ptr<const Packet> p)
 {
   if (g_verbose)
     {
-      NS_LOG_UNCOND (" RX p: " << *p );
+      // NS_LOG_UNCOND (" RX p: " << *p );
       // *stream->GetStream () << " RX p: " << *p << std::endl;
       std::cout << " RX p: " << *p << std::endl;
     }
 }
 void
-PhyRxOkTrace (std::string context, Ptr<const Packet> packet, double snr, WifiMode mode, enum WifiPreamble preamble, Ptr<OutputStreamWrapper> stream)
+// PhyRxOkTrace (std::string context, Ptr<const Packet> packet, double snr, WifiMode mode, enum WifiPreamble preamble, Ptr<OutputStreamWrapper> stream)
+PhyRxOkTrace (std::string context, Ptr<const Packet> packet, double snr, WifiMode mode, enum WifiPreamble preamble)
 {
   if (g_verbose)
     {
-      NS_LOG_UNCOND ("PHYRXOK mode=" << mode << " snr=" << snr << " " << *packet);
+      // NS_LOG_UNCOND ("PHYRXOK mode=" << mode << " snr=" << snr << " " << *packet);
       // *stream->GetStream () << "PHYRXOK mode=" << mode << " snr=" << snr << " " << *packet << std::endl;
       std::cout << "PHYRXOK mode=" << mode << " snr=" << snr << " " << *packet << std::endl;
     }
 }
 void
-PhyRxErrorTrace (std::string context, Ptr<const Packet> packet, double snr, Ptr<OutputStreamWrapper> stream)
+// PhyRxErrorTrace (std::string context, Ptr<const Packet> packet, double snr, Ptr<OutputStreamWrapper> stream)
+PhyRxErrorTrace (std::string context, Ptr<const Packet> packet, double snr)
 {
   if (g_verbose)
     {
-      NS_LOG_UNCOND ("PHYRXERROR snr=" << snr << " " << *packet);
+      // NS_LOG_UNCOND ("PHYRXERROR snr=" << snr << " " << *packet);
       // *stream->GetStream () << "PHYRXERROR snr=" << snr << " " << *packet << std::endl;
       std::cout << "PHYRXERROR snr=" << snr << " " << *packet << std::endl;
     }
 }
 void
-PhyTxTrace (std::string context, Ptr<const Packet> packet, WifiMode mode, WifiPreamble preamble, uint8_t txPower, Ptr<OutputStreamWrapper> stream)
+// PhyTxTrace (std::string context, Ptr<const Packet> packet, WifiMode mode, WifiPreamble preamble, uint8_t txPower, Ptr<OutputStreamWrapper> stream)
+PhyTxTrace (std::string context, Ptr<const Packet> packet, WifiMode mode, WifiPreamble preamble, uint8_t txPower)
 {
   if (g_verbose)
     {
-      NS_LOG_UNCOND ("PHYTX mode=" << mode << " " << *packet);
+      // NS_LOG_UNCOND ("PHYTX mode=" << mode << " " << *packet);
       // *stream->GetStream () << "PHYTX mode=" << mode << " " << *packet << std::endl;
       std::cout << "PHYTX mode=" << mode << " " << *packet << std::endl;
     }
@@ -107,11 +112,12 @@ enum WifiPhyState
 #endif  
 
 void
-PhyStateTrace (std::string context, Time start, Time duration, enum WifiPhyState state, Ptr<OutputStreamWrapper> stream)
+// PhyStateTrace (std::string context, Time start, Time duration, enum WifiPhyState state, Ptr<OutputStreamWrapper> stream)
+PhyStateTrace (std::string context, Time start, Time duration, enum WifiPhyState state)
 {
   if (g_verbose)
     {
-      NS_LOG_UNCOND (" state=" << state << " start=" << start << " duration=" << duration);
+      // NS_LOG_UNCOND (" state=" << state << " start=" << start << " duration=" << duration);
       // *stream->GetStream () << " state=" << state << " start=" << start << " duration=" << duration << std::endl;
       std::cout << " state=" << state << " start=" << start << " duration=" << duration << std::endl;
     }
@@ -230,9 +236,17 @@ int main (int argc, char *argv[])
   athstats.EnableAthstats ("athstats-sta", stas);
   athstats.EnableAthstats ("athstats-ap", ap);
 
-  AsciiTraceHelper ascii;
-  Ptr<OutputStreamWrapper> stream = ascii.CreateFileStream("fd_ap.dat");
-
+  // PcapHelper pcapHelper;
+  // Ptr<PcapFileWrapper> file = pcapHelper.CreateFile ("fd_ap.pcap", std::ios::out, PcapHelper::DLT_PPP);
+  // staDevs.Get (1)->TraceConnectWithoutContext ("/NodeList/*/DeviceList/*/Mac/MacTx", MakeCallback (&DevTxTrace, file));
+  // AsciiTraceHelper ascii;
+  // Ptr<OutputStreamWrapper> stream = ascii.CreateFileStream("fd_ap.dat");
+  // TraceConnectWithoutContext("/NodeList/*/DeviceList/*/Mac/MacTx", MakeBoundCallback (&DevTxTrace,stream));
+  // TraceConnectWithoutContext("/NodeList/*/DeviceList/*/Mac/MacRx", MakeBoundCallback (&DevRxTrace,stream));
+  // TraceConnectWithoutContext("/NodeList/*/DeviceList/*/Phy/State/RxOk", MakeBoundCallback (&PhyRxOkTrace,stream));
+  // TraceConnectWithoutContext("/NodeList/*/DeviceList/*/Phy/State/RxError", MakeBoundCallback (&PhyRxErrorTrace,stream));
+  // TraceConnectWithoutContext("/NodeList/*/DeviceList/*/Phy/State/Tx", MakeBoundCallback (&PhyTxTrace,stream));
+  // TraceConnectWithoutContext("/NodeList/*/DeviceList/*/Phy/State/State", MakeBoundCallback (&PhyStateTrace,stream));
 
   Simulator::Run ();
 
